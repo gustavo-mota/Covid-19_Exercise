@@ -137,14 +137,6 @@ n_pais_sem_mortes <- nrow(pais_sem_mortes)
 # M?dia de pa?ses com menos de 10 infectados
 
 
-# Quantos morreram em m?dia por pa?s
-# M?dia de mortes
-
-
-# Quantos foram infectados em m?dia por pa?s
-# M?dia de infectados
-
-
 # Quantos foram infectados em m?dia por dia
 # Average infections recorded per day
 avg_infections_day <- mean(casos.dia)
@@ -171,10 +163,11 @@ avg_countries_infected <- n_countries_infected/145
 # Average countries without infections
 avg_countries_winfections <- 1 - avg_countries_infected
 
-# Qual a moda de mortes
-# Moda em Deaths
-# Descobre quantas mortes se tem maior frequ?ncia e se compara com a m?dia para descobrir que isso ocorre apenas no come?o
+# Average deaths per country
+avg_deaths_countries <- mean(mortes.pais)
 
+# Average infections per country
+avg_infections_country <- mean(countr_cases)
 
 # Qual varia mais: mortes ou infec??es por pa?s?
 # Coeficiente de varia??o infec??es e mortes por pa?s
