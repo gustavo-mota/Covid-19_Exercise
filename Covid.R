@@ -113,10 +113,11 @@ mortes.pais <- tapply(covid$Deaths,covid[,7],sum)
 # Paises com mortes
 pais_mortes <- mortes.pais[which(mortes.pais > 0)]
 
-# Numero de paises com mortes
+# Number of countries with deaths
 n_pais_mortes <- nrow(pais_mortes)
 
-deaths_countries_day <- tapply(covid$Deaths > 0,covid$DateRep, sum)
+# Deaths per day
+deaths.day <- tapply(covid$Deaths > 0,covid$DateRep, sum)
 
 wd_countries <- tapply(covid$Deaths == 0,covid$DateRep, sum) #Acho que ta errado
 
@@ -144,11 +145,12 @@ md_infected <- mean()
 
 
 # Quantos foram infectados em m?dia por dia
-# M?dia de infectados ao dia
-
+# Average infections recorded per day
+avg_infections_day <- mean(casos.dia)
 
 # Quantos morreram em m?dia por dia
-# M?dia de mortes ao dia
+# Averages deaths recorded per day
+avg_deaths_day <- mean(deaths.day)
 
 # Quantos pa?ses em m?dia foram infectados
 # M?dia de pa?ses infectados
