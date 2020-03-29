@@ -47,10 +47,6 @@ infected_countries_day <- tapply(covid$Cases > 0,covid$DateRep, sum)
 # Countries with infections
 infected_countries <- tapply(covid$`Countries and territories`, covid$Cases > 0, sum)
 
-#chek
-unfected_countries <- tapply(covid$Cases == 0,covid$DateRep, sum)
-#check end
-
 df.final <- data.frame(date=c(), country=c())
 for(date in dates){
     ppp <-  covid %>%
@@ -144,10 +140,6 @@ avg_infections_day <- mean(casos.dia)
 # Quantos morreram em m?dia por dia
 # Averages deaths recorded per day
 avg_deaths_day <- mean(deaths.day)
-
-# Quantos pa?ses em m?dia foram infectados
-# M?dia de pa?ses infectados
-
 
 # Quantos pa?ses em m?dia tiveram mortes
 # M?dia de pa?ses com mortes
