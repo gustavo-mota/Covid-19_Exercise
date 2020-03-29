@@ -17,10 +17,19 @@ plot(1:5388,covid$Cases)
 # Numero de casos por dia no mundo
 casos.dia <- tapply(covid$Cases,covid[,"DateRep"],sum)
 
-# Infectados por pa?s
+countries_list <- unique(covid$`Countries and territories`)
+
+# Infections per country
 countr_cases <- tapply(covid$Cases,covid[,7],sum)
 
-# Ordered cases per country
+# Countries with infections only
+countries_infected <- countr_cases[countr_cases != 0]
+n_countries_infected <- nrow(countries_infected)
+
+# Countries without infections
+countries_winfections <- countr_cases[countr_cases == 0]
+
+# Ordered index of cases per country
 ind_OrdCounCas <- order(countr_cases, decreasing = TRUE)
 
 #The 10 countries with most cases
@@ -32,9 +41,6 @@ barplot(top_10Most)
 
 dates <- unique(covid$DateRep[order(covid$DateRep)])
 number_days <- nrow(dates)
-
-#Lista de paises
-countries_list <- unique(covid$`Countries and territories`)
 
 infected_countries_day <- tapply(covid$Cases > 0,covid$DateRep, sum)
 
@@ -107,10 +113,10 @@ first_deaths <- df.final3 %>%
                 filter(!is.na(datee)) %>%
                 select(datee, country)
 
-# Numero de mortes por pais
+# Number of deaths per country
 mortes.pais <- tapply(covid$Deaths,covid[,7],sum)
 
-# Paises com mortes
+# Only countries with deaths and their numbers
 pais_mortes <- mortes.pais[which(mortes.pais > 0)]
 
 # Number of countries with deaths
@@ -126,11 +132,6 @@ pais_sem_mortes <- mortes.pais[which(mortes.pais == 0)]
 
 # Numero de paises sem mortes
 n_pais_sem_mortes <- nrow(pais_sem_mortes)
-
-#Medidas de posi??o
-
-# M?dia de pa?ses infectados
-md_infected <- mean()
 
 # Quantos pa?ses em m?dia possuem menos de 10 infectados
 # M?dia de pa?ses com menos de 10 infectados
@@ -158,6 +159,17 @@ avg_deaths_day <- mean(deaths.day)
 
 # Quantos pa?ses em m?dia tiveram mortes
 # M?dia de pa?ses com mortes
+avg_countries_deaths <- n_pais_mortes/145
+
+# How many countries on average had no deaths
+# Average countries without deaths
+avg_countries_wdeaths <- n_pais_sem_mortes/145
+
+# Average countries with infections
+avg_countries_infected <- n_countries_infected/145
+
+# Average countries without infections
+avg_countries_winfections <- 1 - avg_countries_infected
 
 # Qual a moda de mortes
 # Moda em Deaths
@@ -166,11 +178,12 @@ avg_deaths_day <- mean(deaths.day)
 
 # Qual varia mais: mortes ou infec??es por pa?s?
 # Coeficiente de varia??o infec??es e mortes por pa?s
+cv_cases_country <- sd(countr_cases)/mean(countr_cases)
+cv_deaths_country <- sd(mortes.pais)/mean(mortes.pais) # This
 
-
-# Qual varia mais: mortes ou infec??es por dia?
-# Coeficiente de varia??o infec??es e mortes por dia
-
+# Do deaths or infections vary more per day ?
+cv_deaths_day <- sd(deaths.day)/avg_deaths_day # This
+cv_cases_day <- sd(casos.dia)/avg_infections_day
 
 # Quantos dias em m?dia da primeira infe??o at? a primeira morte
 # M?dia do intervalo de dias desde infec??o at? a morte
