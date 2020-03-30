@@ -21,7 +21,9 @@ casos.dia <- tapply(covid$Cases,covid[,"DateRep"],sum)
 countries_list <- unique(covid$`Countries and territories`)
 
 # Infections per country
-countr_cases <- tapply(covid$Cases,covid[,7],sum)
+countr_cases <- tapply(covid$Cases,covid[,8],sum)
+pie(countr_cases[countr_cases > 1000])
+pie(countr_cases[countr_cases < 1000 & countr_cases > 200])
 
 # Countries with infections only
 countries_infected <- countr_cases[countr_cases != 0]
@@ -38,6 +40,7 @@ top_10Most <- countr_cases[ind_OrdCounCas[1:10]]
 
 #Number of infected countries per day
 infected_countries_day <- tapply(covid$Cases > 0,covid$DateRep, sum)
+plot(infected_countries_day)
 
 # Countries with infections
 infected_countries <- tapply(covid$`Countries and territories`, covid$Cases > 0, sum)
@@ -93,7 +96,8 @@ first_deaths <- df.final3 %>%
                 select(datee, country)
 
 # Number of deaths per country
-mortes.pais <- tapply(covid$Deaths,covid[,7],sum)
+mortes.pais <- tapply(covid$Deaths,covid[,8],sum)
+pie(mortes.pais[mortes.pais > 50])
 
 # Only countries with deaths and their numbers
 pais_mortes <- mortes.pais[which(mortes.pais > 0)]
@@ -102,14 +106,16 @@ pais_mortes <- mortes.pais[which(mortes.pais > 0)]
 n_pais_mortes <- nrow(pais_mortes)
 
 # Deaths per day
-deaths.day <- tapply(covid$Deaths > 0,covid$DateRep, sum)
+deaths.day <- tapply(covid$Deaths,covid$DateRep, sum)
+
+# Number of countries with deaths per day
+deaths.country <- tapply(covid$Deaths > 0,covid$DateRep, sum)
+plot(deaths.country)
 
 wd_countries <- tapply(covid$Deaths == 0,covid$DateRep, sum) #Acho que ta errado
 
 # Paises sem mortes
 pais_sem_mortes <- mortes.pais[which(mortes.pais == 0)]
-
-# Numero de paises sem mortes
 n_pais_sem_mortes <- nrow(pais_sem_mortes)
 
 # Quantos pa?ses em m?dia possuem menos de 10 infectados
