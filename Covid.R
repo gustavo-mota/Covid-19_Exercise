@@ -11,12 +11,20 @@ library(base)
 covid <- read_excel("RStudio/Covid-19_Task/COVID-19-geographic-disbtribution-worldwide-2020-03-17.xlsx")
 View(covid)
 
+# Basics plots
+plot(1:5388,covid$Cases)
+
 # All the dates
 dates <- unique(covid$DateRep[order(covid$DateRep)])
 number_days <- nrow(dates)
 
 # Numero de casos por dia no mundo
 casos.dia <- tapply(covid$Cases,covid[,"DateRep"],sum)
+plot(casos.dia,lty=1,type='l')
+
+summary(casos.dia) # sumarios estatisticos
+hist(casos.dia)
+boxplot(casos.dia)
 
 countries_list <- unique(covid$`Countries and territories`)
 
@@ -37,6 +45,7 @@ ind_OrdCounCas <- order(countr_cases, decreasing = TRUE)
 
 #The 10 countries with most cases
 top_10Most <- countr_cases[ind_OrdCounCas[1:10]]
+barplot(top_10Most)
 
 #Number of infected countries per day
 infected_countries_day <- tapply(covid$Cases > 0,covid$DateRep, sum)
@@ -121,6 +130,8 @@ n_pais_sem_mortes <- nrow(pais_sem_mortes)
 # Quantos pa?ses em m?dia possuem menos de 10 infectados
 # M?dia de pa?ses com menos de 10 infectados
 
+# Mortos por infectado e por dia
+tax_mort <-  data.frame(PerInfect=mortes.pais/countr_cases, perday=mortes.pais/78)
 
 # Quantos foram infectados em m?dia por dia
 # Average infections recorded per day
@@ -162,17 +173,3 @@ cv_cases_day <- sd(casos.dia)/avg_infections_day
 # Quantos dias em m?dia da primeira infe??o at? a primeira morte
 # M?dia do intervalo de dias desde infec??o at? a morte
 
-
-# Plots
-#Grafico feio
-plot(1:5388,covid$Cases)
-
-barplot(top_10Most)
-
-plot(casos.dia,lty=1,type='l')
-
-summary(casos.dia) # sumarios estatisticos
-
-hist(casos.dia)
-
-boxplot(casos.dia)
