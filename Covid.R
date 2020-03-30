@@ -131,7 +131,10 @@ n_pais_sem_mortes <- nrow(pais_sem_mortes)
 # M?dia de pa?ses com menos de 10 infectados
 
 # Mortos por infectado e por dia
-tax_mort <-  data.frame(PerInfect=mortes.pais/countr_cases, perday=mortes.pais/78)
+tax_mort <-  data.frame(PerInfect=(mortes.pais*100)/countr_cases, perday=mortes.pais/78)
+
+# General mortality
+tax_genDeath <- sum(covid$Deaths)*100/sum(covid$Cases)
 
 # Quantos foram infectados em m?dia por dia
 # Average infections recorded per day
