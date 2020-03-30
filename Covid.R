@@ -11,8 +11,9 @@ library(base)
 covid <- read_excel("RStudio/Covid-19_Task/COVID-19-geographic-disbtribution-worldwide-2020-03-17.xlsx")
 View(covid)
 
-#Grafico feio
-plot(1:5388,covid$Cases)
+# All the dates
+dates <- unique(covid$DateRep[order(covid$DateRep)])
+number_days <- nrow(dates)
 
 # Numero de casos por dia no mundo
 casos.dia <- tapply(covid$Cases,covid[,"DateRep"],sum)
@@ -35,13 +36,7 @@ ind_OrdCounCas <- order(countr_cases, decreasing = TRUE)
 #The 10 countries with most cases
 top_10Most <- countr_cases[ind_OrdCounCas[1:10]]
 
-barplot(top_10Most)
-
 #Number of infected countries per day
-
-dates <- unique(covid$DateRep[order(covid$DateRep)])
-number_days <- nrow(dates)
-
 infected_countries_day <- tapply(covid$Cases > 0,covid$DateRep, sum)
 
 # Countries with infections
@@ -59,6 +54,7 @@ for(date in dates){
 #Cases per months
 case_month <- tapply(covid$Cases, covid$Month, sum)
 
+# Amostra
 # Day of the first infection on countries
 df.final2 <- data.frame(datee=character(0), country=character(0))
 for(country in unique(covid$`Countries and territories`)){
@@ -72,23 +68,10 @@ for(country in unique(covid$`Countries and territories`)){
   names(newDF) <- names(df.final2)
   df.final2 <- rbind(df.final2, newDF)
 }
+# Its wrong
+first_infection <- df.final2
 
-# Days interval until last date
-last_date <- covid$DateRep[1]
-first_date <- covid$DateRep[nrow(covid)]
-
-#Plot interval of days since spread begins in the country  
-#Days of infection in th most infected countries
-
-plot(casos.dia,lty=1,type='l')
-
-summary(casos.dia) # sumarios estatisticos
-
-hist(casos.dia)
-
-boxplot(casos.dia)
-
-# Day of the first death on countries
+# Day of the first one death on countries
 # Only the countries where the deaths starts with one victim
 df.final3 <- data.frame(datee=character(0), country=character(0))
 for(country in unique(covid$`Countries and territories`)){
@@ -104,7 +87,7 @@ for(country in unique(covid$`Countries and territories`)){
 }
 
 #df.final3$country[!is.na(df.final3$datee)]
-
+# Its wrong
 first_deaths <- df.final3 %>%
                 filter(!is.na(datee)) %>%
                 select(datee, country)
@@ -173,3 +156,17 @@ cv_cases_day <- sd(casos.dia)/avg_infections_day
 # Quantos dias em m?dia da primeira infe??o at? a primeira morte
 # M?dia do intervalo de dias desde infec??o at? a morte
 
+
+# Plots
+#Grafico feio
+plot(1:5388,covid$Cases)
+
+barplot(top_10Most)
+
+plot(casos.dia,lty=1,type='l')
+
+summary(casos.dia) # sumarios estatisticos
+
+hist(casos.dia)
+
+boxplot(casos.dia)
